@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.ViewManager;
@@ -13,6 +14,7 @@ import controller.ViewManager;
 public class HomeView extends JPanel implements ActionListener {
 	
 	private ViewManager manager;		// manages interactions between the views, model, and database
+	private JButton LogOut;
 	
 	/**
 	 * Constructs an instance (or objects) of the HomeView class.
@@ -34,23 +36,19 @@ public class HomeView extends JPanel implements ActionListener {
 	 */
 	
 	private void initialize() {
+		this.setLayout(null);
 		
-		// TODO
-		//
-		// this is a placeholder for this view and should be removed once you start
-		// building the HomeView.
-		
-		this.add(new javax.swing.JLabel("HomeView", javax.swing.SwingConstants.CENTER));
-		
-		// TODO
-		//
-		// this is where you should build the HomeView (i.e., all the components that
-		// allow the user to interact with the ATM - deposit, withdraw, transfer, etc.).
-		//
-		// feel free to use my layout in LoginView as an example for laying out and
-		// positioning your components.
+		initLogOutButton();
 	}
 	
+	private void initLogOutButton() {
+		LogOut = new JButton("Log Out");
+		LogOut.setBounds(205, 400, 90, 35);
+		LogOut.addActionListener(this);
+		
+		this.add(LogOut);
+	}
+
 	/*
 	 * HomeView is not designed to be serialized, and attempts to serialize will throw an IOException.
 	 * 
@@ -72,13 +70,11 @@ public class HomeView extends JPanel implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
 		
-		// TODO
-		//
-		// this is where you'll setup your action listener, which is responsible for
-		// responding to actions the user might take in this view (an action can be a
-		// user clicking a button, typing in a textfield, etc.).
-		//
-		// feel free to use my action listener in LoginView.java as an example.
+		if (source.equals(LogOut)) {
+			
+			manager.switchTo(ATM.LOGIN_VIEW);
+		}
 	}
 }

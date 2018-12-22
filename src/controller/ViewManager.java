@@ -61,6 +61,11 @@ public class ViewManager {
 	
 	public void switchTo(String view) {
 		((CardLayout) views.getLayout()).show(views, view);
+		
+		// MY CODE TAKE OUT MAYBE?
+		if (view.equals("LOGIN_VIEW")) {
+			account = null;
+		}
 	}
 	
 	/**
