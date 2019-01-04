@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -76,7 +78,7 @@ public class CreateView extends JPanel implements ActionListener {
 		initFirstNameField();
 		initLastNameField();
 		initDateOfBirth();
-		initPhoneNumField(); // FIXXXXXXXX
+		initPhoneNumField();
 		initAddressField();
 		initCityField();
 		initStateMenu();
@@ -122,7 +124,7 @@ public class CreateView extends JPanel implements ActionListener {
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		String[] months = { "MM", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
-		String[] days = { "DD", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+		String[] days = { "DD", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 		String[] years = { "YY", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970", "1969", "1968", "1967", "1966", "1965", "1964", "1963", "1962", "1961", "1960", "1959", "1958", "1957", "1956", "1955", "1954", "1953", "1952", "1951", "1950", "1949", "1948", "1947", "1946", "1945", "1944", "1943", "1942", "1941", "1940"};
 		
 	    DOB_Month = new JComboBox<>(months);
@@ -230,11 +232,11 @@ public class CreateView extends JPanel implements ActionListener {
 		label.setLabelFor(Pin);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
-		City = new JPasswordField(20);
-		City.setBounds(205, 360, 200, 35);
+		Pin = new JPasswordField(20);
+		Pin.setBounds(205, 360, 200, 35);
 		
 		this.add(label);
-		this.add(City);
+		this.add(Pin);
 	}
 
 	private void initCreateButton() {
@@ -286,26 +288,107 @@ public class CreateView extends JPanel implements ActionListener {
 		Object source = e.getSource();
 		
 		if (source.equals(Create)) {
+			
 			// Check for empty values or incorrect formats NEED TO CHECK NUMS VS CHARS LATER TOO
 			String errorMsg = "";
-			errorMsg = (FirstName.getText().equals("") /* || length*/) ? "Please enter first name in correct format" : errorMsg;
-			errorMsg = (LastName.getText().equals("") /* || length*/) ? "Please enter last name in correct format" : errorMsg;
-			errorMsg = (DOB_Month.getSelectedIndex() == 0 || DOB_Day.getSelectedIndex() == 0 || DOB_Year.getSelectedIndex() == 0) ? "Please enter date of birth in correct format" : errorMsg;
-			errorMsg = (PhoneNumber_A.getText().length() != 3 || PhoneNumber_B.getText().length() != 3 || PhoneNumber_C.getText().length() != 4) ? "Please enter phone number in correct format" : errorMsg;
-			errorMsg = (Address.getText().equals("") /* || length*/) ? "Please enter address in correct format" : errorMsg;
-			// errorMsg = (City.getText().equals("") /* || length*/) ? "Please enter city in correct format" : errorMsg;
-			// THIS DOESN'T WORK FOR SOME REASON
-			System.out.println(City.getText());
-			errorMsg = (State.getSelectedIndex() == 0 /* || length*/) ? "Please enter state in correct format" : errorMsg;
-			errorMsg = (PostalCode.getText().length() != 5) ? "Please enter postal code in correct format" : errorMsg;
-			// errorMsg = (Pin.getPassword().equals(null) || Pin.getText().length() != 5) ? "Please enter pin in correct format" : errorMsg; 
-			// THIS DOESN"T WORK EITHER ^^
+			errorMsg = (new String(Pin.getPassword()).length() != 4 || !checkContents(new String(Pin.getPassword()), false)) ? "Please enter pin in correct format" : errorMsg; 
+			errorMsg = (PostalCode.getText().length() != 5 || !checkContents(PostalCode.getText(), false)) ? "Please enter postal code in correct format" : errorMsg;
+			errorMsg = (State.getSelectedIndex() == 0) ? "Please enter state in correct format" : errorMsg;
+			errorMsg = (City.getText().equals("") || !checkContents(City.getText(), true)) ? "Please enter city in correct format" : errorMsg;
+			errorMsg = (Address.getText().equals("")) ? "Please enter address in correct format" : errorMsg;
+			errorMsg = (PhoneNumber_A.getText().length() != 3 || PhoneNumber_B.getText().length() != 3 || PhoneNumber_C.getText().length() != 4
+					|| !checkContents(PhoneNumber_A.getText(), false) || !checkContents(PhoneNumber_B.getText(), false) || !checkContents(PhoneNumber_C.getText(), false)) ? "Please enter phone number in correct format" : errorMsg;
+			// errors?
+			
+			int temp;
+			switch (DOB_Month.getSelectedIndex()) {
+				case 1: temp = 31; break;
+				case 2: temp = 29; break;
+				case 3: temp = 31; break;
+				case 4: temp = 30; break;
+				case 5: temp = 31; break;
+				case 6: temp = 30; break;
+				case 7: temp = 31; break;
+				case 8: temp = 31; break;
+				case 9: temp = 30; break;
+				case 10: temp = 31; break;
+				case 11: temp = 30; break;
+				case 12: temp = 31; break;
+				default: temp = 0;
+			}
+			errorMsg = (DOB_Month.getSelectedIndex() == 0 || DOB_Day.getSelectedIndex() == 0 || DOB_Day.getSelectedIndex() > temp || DOB_Year.getSelectedIndex() == 0 ) ? "Please enter date of birth in correct format" : errorMsg;
+			errorMsg = (LastName.getText().equals("") || !checkContents(LastName.getText(), true)) ? "Please enter last name in correct format" : errorMsg;
+			errorMsg = (FirstName.getText().equals("") || !checkContents(FirstName.getText(), true)) ? "Please enter first name in correct format" : errorMsg;
+			
+			// Update error message
+			updateErrorMessage(errorMsg);
 			
 			if (errorMsg.equals("")) {
-				manager.switchTo(ATM.HOME_VIEW);
+				data.Database db = new data.Database();
+				
+				// Create User
+				int pin = Integer.valueOf(new String(Pin.getPassword()));
+				int dob = Integer.valueOf(DOB_Year.getSelectedItem().toString() + ((DOB_Month.getSelectedIndex() < 10) ? ("0" + String.valueOf(DOB_Month.getSelectedIndex())) : String.valueOf(DOB_Month.getSelectedIndex())) + DOB_Day.getSelectedItem().toString()); //YYYYMMDD
+				long phone = Long.valueOf(PhoneNumber_A.getText() + PhoneNumber_B.getText() + PhoneNumber_C.getText());
+				String firstName = FirstName.getText();
+				String lastName = FirstName.getText();
+				String streetAddress = Address.getText();
+				String city = City.getText();
+				String state = State.getSelectedItem().toString();
+				String zip = PostalCode.getText();
+				model.User user = new model.User(pin, dob, phone, firstName, lastName, streetAddress, city, state, zip);
+				
+				// Create Account
+				long accountNumber = db.getMaxAccountNumber() + 1;
+				errorMsg = (accountNumber != -1) ? "" : "Error: could not fetch maximum account number.";
+				double balance = 0;
+				
+				model.BankAccount account = new model.BankAccount('Y', accountNumber, balance, user);
+				
+				
+				try {			
+					int choice = JOptionPane.showConfirmDialog(
+						null,
+						"Your Account Number is " + accountNumber + ". Confirm Account Creation?",
+						"Create Account",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE
+					);
+					if (choice == 1) {
+						errorMsg = "Account Creation Cancelled";
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				if (errorMsg.equals("")) {
+					// Enter Into Database
+					errorMsg = (db.insertAccount(account)) ? "" : "Error: could not create account.";
+				}
+
+				// Update error message
+				updateErrorMessage(errorMsg);
+				
+				if (errorMsg.equals("")) {
+					manager.switchTo(ATM.HOME_VIEW);
+					
+					// Clear Fields
+					FirstName.setText("");
+					LastName.setText("");
+					DOB_Month.setSelectedIndex(0);
+					DOB_Day.setSelectedIndex(0);
+					DOB_Year.setSelectedIndex(0);
+					PhoneNumber_A.setText("");
+					PhoneNumber_B.setText("");
+					PhoneNumber_C.setText("");
+					Address.setText("");
+					City.setText("");
+					State.setSelectedIndex(0);
+					PostalCode.setText("");
+					Pin.setText("");
+				}
 			}
 			
-			updateErrorMessage(errorMsg);
 		} else if (source.equals(Cancel)) {
 			FirstName.setText("");
 			LastName.setText("");
@@ -316,10 +399,10 @@ public class CreateView extends JPanel implements ActionListener {
 			PhoneNumber_B.setText("");
 			PhoneNumber_C.setText("");
 			Address.setText("");
-			City.setText(""); //Why doesn't this one work?
+			City.setText("");
 			State.setSelectedIndex(0);
 			PostalCode.setText("");
-			//Pin.setText(""); // This one doesn't work either
+			Pin.setText("");
 			
 			manager.switchTo(ATM.LOGIN_VIEW);
 		} else {
@@ -333,5 +416,29 @@ public class CreateView extends JPanel implements ActionListener {
 		// user clicking a button, typing in a textfield, etc.).
 		//
 		// feel free to use my action listener in LoginView.java as an example.
+	}
+	
+	/**
+	 * Checks for certain format
+	 * 
+	 * @param string, checking for characters?
+	 * @return true if format is correct; false otherwise.
+	 */
+	
+	private boolean checkContents(String string, boolean characters) {
+		boolean format = true;
+		for (int i = 0; i < string.length(); i++) {
+			char tempChar = string.charAt(i);
+			if (characters) {
+				if (!(tempChar >= 'a' && tempChar <= 'z' || tempChar >= 'A' && tempChar <= 'Z' || tempChar == ' ' || tempChar == '.')) {
+					format = false;
+				}
+			} else {
+				if (!(tempChar >= '0' && tempChar <= '9')) {
+					format = false;
+				}
+			}
+		}
+		return format;
 	}
 }

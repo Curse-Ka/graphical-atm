@@ -103,6 +103,30 @@ public class Database {
 	}
 	
 	/**
+	 * Gets Max Account Number
+	 * 
+	 * @param none
+	 * @return max account num if successful; -1 if not.
+	 */
+	
+	public long getMaxAccountNumber() {
+		try {
+			stmt = conn.createStatement();
+			
+			PreparedStatement selectStmt = conn.prepareStatement("SELECT MAX(account_number) FROM accounts");
+			
+			rs = selectStmt.executeQuery();
+			if (rs.next()) {
+				return rs.getLong(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}
+	
+	/**
 	 * Inserts an account into the database.
 	 * 
 	 * @param account
