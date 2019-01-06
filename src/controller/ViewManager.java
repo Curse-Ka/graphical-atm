@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import data.Database;
 import model.BankAccount;
 import view.ATM;
+import view.HomeView;
 import view.LoginView;
 
 public class ViewManager {

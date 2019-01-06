@@ -289,7 +289,7 @@ public class CreateView extends JPanel implements ActionListener {
 		
 		if (source.equals(Create)) {
 			
-			// Check for empty values or incorrect formats NEED TO CHECK NUMS VS CHARS LATER TOO
+			// Check for empty values or incorrect formats
 			String errorMsg = "";
 			errorMsg = (new String(Pin.getPassword()).length() != 4 || !checkContents(new String(Pin.getPassword()), false)) ? "Please enter pin in correct format" : errorMsg; 
 			errorMsg = (PostalCode.getText().length() != 5 || !checkContents(PostalCode.getText(), false)) ? "Please enter postal code in correct format" : errorMsg;
@@ -298,9 +298,7 @@ public class CreateView extends JPanel implements ActionListener {
 			errorMsg = (Address.getText().equals("")) ? "Please enter address in correct format" : errorMsg;
 			errorMsg = (PhoneNumber_A.getText().length() != 3 || PhoneNumber_B.getText().length() != 3 || PhoneNumber_C.getText().length() != 4
 					|| !checkContents(PhoneNumber_A.getText(), false) || !checkContents(PhoneNumber_B.getText(), false) || !checkContents(PhoneNumber_C.getText(), false)) ? "Please enter phone number in correct format" : errorMsg;
-			// errors?
-			
-			int temp;
+			int temp; // Makes sure birth date is valid, though assumes 366 day year
 			switch (DOB_Month.getSelectedIndex()) {
 				case 1: temp = 31; break;
 				case 2: temp = 29; break;
@@ -314,8 +312,7 @@ public class CreateView extends JPanel implements ActionListener {
 				case 10: temp = 31; break;
 				case 11: temp = 30; break;
 				case 12: temp = 31; break;
-				default: temp = 0;
-			}
+				default: temp = 0; }
 			errorMsg = (DOB_Month.getSelectedIndex() == 0 || DOB_Day.getSelectedIndex() == 0 || DOB_Day.getSelectedIndex() > temp || DOB_Year.getSelectedIndex() == 0 ) ? "Please enter date of birth in correct format" : errorMsg;
 			errorMsg = (LastName.getText().equals("") || !checkContents(LastName.getText(), true)) ? "Please enter last name in correct format" : errorMsg;
 			errorMsg = (FirstName.getText().equals("") || !checkContents(FirstName.getText(), true)) ? "Please enter first name in correct format" : errorMsg;
@@ -323,6 +320,7 @@ public class CreateView extends JPanel implements ActionListener {
 			// Update error message
 			updateErrorMessage(errorMsg);
 			
+			// Creation of Account, completed only after all information present
 			if (errorMsg.equals("")) {
 				data.Database db = new data.Database();
 				
@@ -331,7 +329,7 @@ public class CreateView extends JPanel implements ActionListener {
 				int dob = Integer.valueOf(DOB_Year.getSelectedItem().toString() + ((DOB_Month.getSelectedIndex() < 10) ? ("0" + String.valueOf(DOB_Month.getSelectedIndex())) : String.valueOf(DOB_Month.getSelectedIndex())) + DOB_Day.getSelectedItem().toString()); //YYYYMMDD
 				long phone = Long.valueOf(PhoneNumber_A.getText() + PhoneNumber_B.getText() + PhoneNumber_C.getText());
 				String firstName = FirstName.getText();
-				String lastName = FirstName.getText();
+				String lastName = LastName.getText();
 				String streetAddress = Address.getText();
 				String city = City.getText();
 				String state = State.getSelectedItem().toString();
@@ -340,12 +338,12 @@ public class CreateView extends JPanel implements ActionListener {
 				
 				// Create Account
 				long accountNumber = db.getMaxAccountNumber() + 1;
-				errorMsg = (accountNumber != -1) ? "" : "Error: could not fetch maximum account number.";
+				errorMsg = (accountNumber != -1) ? "" : "ERROR: could not fetch maximum account number.";
 				double balance = 0;
 				
 				model.BankAccount account = new model.BankAccount('Y', accountNumber, balance, user);
 				
-				
+				// Confirm Account Creation
 				try {			
 					int choice = JOptionPane.showConfirmDialog(
 						null,
@@ -361,14 +359,15 @@ public class CreateView extends JPanel implements ActionListener {
 					e1.printStackTrace();
 				}
 				
+				// Create Account if no other errors
 				if (errorMsg.equals("")) {
-					// Enter Into Database
-					errorMsg = (db.insertAccount(account)) ? "" : "Error: could not create account.";
+					errorMsg = (db.insertAccount(account)) ? "" : "ERROR: could not create account.";
 				}
 
 				// Update error message
 				updateErrorMessage(errorMsg);
 				
+				// Clears fields after creation, but validates that creation was successful
 				if (errorMsg.equals("")) {
 					manager.switchTo(ATM.HOME_VIEW);
 					
@@ -390,6 +389,7 @@ public class CreateView extends JPanel implements ActionListener {
 			}
 			
 		} else if (source.equals(Cancel)) {
+			// Clear entries
 			FirstName.setText("");
 			LastName.setText("");
 			DOB_Month.setSelectedIndex(0);

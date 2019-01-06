@@ -1,6 +1,6 @@
 # Graphical ATM
 
-Just when you thought you were done with that pesky ATM... Welcome to what is likely your first introduction to graphics, where you'll implement a graphical user interface (i.e., GUI) to manage the underlying logice you already implemented for the Enhanced ATM. Rather than interacting with your program through the terminal window (i.e., a command line interface or CLI), you'll be creating buttons and textboxes to build something closer to a real ATM. Along with a written test, this assignment will count towards your midterm exam score.
+Just when you thought you were done with that pesky ATM... Welcome to what is likely your first introduction to graphics, where you'll implement a graphical user interface (i.e., GUI) to manage the underlying logic you already implemented for the Enhanced ATM. Rather than interacting with your program through the terminal window (i.e., a command line interface or CLI), you'll be creating buttons and textboxes to build something closer to a real ATM. Along with a written test, this assignment will count towards your midterm exam score.
 
 ## Getting Started
 
