@@ -18,6 +18,7 @@ import controller.ViewManager;
 public class TransferView extends JPanel implements ActionListener {
 	
 	private ViewManager manager;		// manages interactions between the views, model, and database
+	private model.BankAccount account;
 	private JLabel errorMessageLabel;
 	private JButton backButton;
 	
@@ -39,6 +40,10 @@ public class TransferView extends JPanel implements ActionListener {
 	
 	public void updateErrorMessage(String errorMessage) {
 		errorMessageLabel.setText(errorMessage);
+	}
+	
+	public void setBankAccount(model.BankAccount account) {
+		this.account = account;
 	}
 	
 	///////////////////// PRIVATE METHODS /////////////////////////////////////////////

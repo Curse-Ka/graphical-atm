@@ -177,6 +177,24 @@ public class User {
 		this.phone = phone;
 	}
 	
+	
+	
+	
+	
+	
+	
+	public void setLastName(String s) {
+		this.lastName = s ;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Updates the user's street address.
 	 * 

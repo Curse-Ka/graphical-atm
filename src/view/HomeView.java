@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,9 +31,6 @@ public class HomeView extends JPanel implements ActionListener {
 	private JButton LogOut;
 	private model.BankAccount account;
 	private JLabel errorMessageLabel;		// label for potential error messages
-	
-	private data.Database db = new data.Database();
-
 		/**
 	 * Constructs an instance (or objects) of the HomeView class.
 	 * 
@@ -57,6 +56,12 @@ public class HomeView extends JPanel implements ActionListener {
 	public void updateErrorMessage(String errorMessage) {
 		errorMessageLabel.setText(errorMessage);
 	}
+
+	public void setBankAccount(model.BankAccount account) {
+		this.account = account;
+		Welcome.setText("Welcome to Inva Sterr's Bank, " + account.getUser().getName());
+		CurrentBalance.setText("Current Balance: " + NumberFormat.getCurrencyInstance(Locale.US).format(account.getBalance()));
+	}
 	
 	///////////////////// PRIVATE METHODS /////////////////////////////////////////////
 	
@@ -79,21 +84,19 @@ public class HomeView extends JPanel implements ActionListener {
 	}
 	
 	private void initWelcome() {
-		Welcome =  new JLabel("Welcome to Inva Sterr's Bank, ", SwingConstants.CENTER);
+		Welcome =  new JLabel("[Welcome Message]", SwingConstants.CENTER);
 		Welcome.setBounds(50, 40, 400, 35);		
 		Welcome.setFont(new Font("DialogInput", Font.PLAIN, 18));
 		Welcome.setForeground(Color.BLACK);
-		//Welcome.setText("Welcome to the Inva Sterr's Bank, NAME NAME");
 		
 		this.add(Welcome);
 	}
 
 	private void initCurrentBalance() {
-		CurrentBalance =  new JLabel("Your Current Balance is $XX,XXX", SwingConstants.CENTER);
+		CurrentBalance =  new JLabel("[Balance]", SwingConstants.CENTER);
 		CurrentBalance.setBounds(60, 100, 400, 35);
 		CurrentBalance.setFont(new Font("DialogInput", Font.BOLD, 14));
 		CurrentBalance.setForeground(Color.BLACK);
-		//CurrentBalance.setText("");
 		
 		this.add(CurrentBalance);
 		
@@ -179,12 +182,16 @@ public class HomeView extends JPanel implements ActionListener {
 		Object source = e.getSource();
 		
 		if (source.equals(Deposit)) {
+			manager.sendBankAccount(account, "Deposit");
 			manager.switchTo(ATM.DEPOSIT_VIEW);
 		} else if (source.equals(Withdraw)) {
+			manager.sendBankAccount(account, "Withdraw");
 			manager.switchTo(ATM.WITHDRAW_VIEW);
 		} else if (source.equals(Transfer)) {
+			manager.sendBankAccount(account, "Transfer");
 			manager.switchTo(ATM.TRANSFER_VIEW);
 		} else if (source.equals(Information)) {
+			manager.sendBankAccount(account, "Information");
 			manager.switchTo(ATM.INFORMATION_VIEW);
 		} else if (source.equals(Close)) {
 			try {			
@@ -196,7 +203,7 @@ public class HomeView extends JPanel implements ActionListener {
 					JOptionPane.QUESTION_MESSAGE
 				);
 				if (choice == 0) {
-					if (db.closeAccount(account)) {
+					if (manager.closeAccount(account) == true) {
 						manager.switchTo(ATM.LOGIN_VIEW);
 					} else {
 						updateErrorMessage("ERROR: Could not close account.");

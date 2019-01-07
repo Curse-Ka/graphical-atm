@@ -47,11 +47,48 @@ public class ViewManager {
 			LoginView lv = ((LoginView) views.getComponents()[ATM.LOGIN_VIEW_INDEX]);
 			lv.updateErrorMessage("Invalid account number and/or PIN.");
 		} else {
-			switchTo(ATM.HOME_VIEW);
-			
 			LoginView lv = ((LoginView) views.getComponents()[ATM.LOGIN_VIEW_INDEX]);
-			lv.updateErrorMessage("");
+			
+			if (account.getStatus() == 'N') {
+				lv.updateErrorMessage("Bank Account is closed");
+			} else {
+				sendBankAccount(account, "Home");
+				switchTo(ATM.HOME_VIEW);
+				lv.updateErrorMessage("");
+			}
 		}
+	}
+	
+	public void sendBankAccount(BankAccount account, String view) {
+		switch (view) {
+		case "Home":
+			view.HomeView hv = ((view.HomeView) views.getComponents()[ATM.HOME_VIEW_INDEX]);
+			hv.setBankAccount(account);
+			break;
+		case "Deposit":
+			view.DepositView dv = ((view.DepositView) views.getComponents()[ATM.DEPOSIT_VIEW_INDEX]);
+			dv.setBankAccount(account);
+		case "Withdraw":
+			view.WithdrawView wv = ((view.WithdrawView) views.getComponents()[ATM.WITHDRAW_VIEW_INDEX]);
+			wv.setBankAccount(account);
+			break;
+		case "Transfer":
+			view.TransferView tv = ((view.TransferView) views.getComponents()[ATM.TRANSFER_VIEW_INDEX]);
+			tv.setBankAccount(account);
+			break;
+		case "Information":
+			view.InformationView iv = ((view.InformationView) views.getComponents()[ATM.INFORMATION_VIEW_INDEX]);
+			iv.setBankAccount(account);
+			break;
+		}
+	}
+	
+	public boolean updateAccount(BankAccount account) {
+		return db.updateAccount(account);
+	}
+	
+	public boolean closeAccount(BankAccount account) {
+		return db.closeAccount(account);
 	}
 	
 	/**
@@ -63,7 +100,6 @@ public class ViewManager {
 	public void switchTo(String view) {
 		((CardLayout) views.getLayout()).show(views, view);
 		
-		// MY CODE TAKE OUT MAYBE?
 		if (view.equals("LOGIN_VIEW")) {
 			account = null;
 		}
