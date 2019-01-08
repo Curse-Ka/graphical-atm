@@ -386,7 +386,7 @@ public class InformationView extends JPanel implements ActionListener {
 						//ASK ABOUT PIN
 						//account.getUser().setLastName("Krska");
 						
-						if (manager.updateAccount(account) == true) { // WHY YOU NO WORK
+						if (manager.updateAccount(account)) {
 							editable = false;
 							setEditable();
 							setFieldInformation();
@@ -411,6 +411,7 @@ public class InformationView extends JPanel implements ActionListener {
 						JOptionPane.QUESTION_MESSAGE
 					);
 					if (choice == 0) {
+						manager.sendBankAccount(account, "Home");
 						manager.switchTo(ATM.HOME_VIEW);
 					}
 				} catch (Exception e1) {

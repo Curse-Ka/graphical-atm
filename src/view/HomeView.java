@@ -203,7 +203,7 @@ public class HomeView extends JPanel implements ActionListener {
 					JOptionPane.QUESTION_MESSAGE
 				);
 				if (choice == 0) {
-					if (manager.closeAccount(account) == true) {
+					if (manager.closeAccount(account)) {
 						manager.switchTo(ATM.LOGIN_VIEW);
 					} else {
 						updateErrorMessage("ERROR: Could not close account.");

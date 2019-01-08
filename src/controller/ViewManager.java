@@ -91,6 +91,10 @@ public class ViewManager {
 		return db.closeAccount(account);
 	}
 	
+	public BankAccount getAccount(long accountNumber) {
+		return db.getAccount(accountNumber);
+	}
+	
 	/**
 	 * Switches the active (or visible) view upon request.
 	 * 

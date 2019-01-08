@@ -9,7 +9,9 @@ import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import controller.ViewManager;
@@ -18,6 +20,8 @@ import controller.ViewManager;
 public class WithdrawView extends JPanel implements ActionListener {
 	
 	private ViewManager manager;		// manages interactions between the views, model, and database
+	private JTextField WithdrawAmount;
+	private JButton Confirm;
 	private model.BankAccount account;
 	private JLabel errorMessageLabel;
 	private JButton backButton;
@@ -55,21 +59,44 @@ public class WithdrawView extends JPanel implements ActionListener {
 	private void initialize() {
 		this.setLayout(null);
 		
+		initWithdrawAmountField();
+		initConfirmButton();
 		initBackButton();
+		initErrorMessageLabel();
 	}
 	
+	private void initWithdrawAmountField() {
+		JLabel label = new JLabel("Withdraw Amount: $", SwingConstants.RIGHT);
+		label.setBounds(40, 100, 155, 35);
+		label.setLabelFor(WithdrawAmount);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		WithdrawAmount = new JTextField(20);
+		WithdrawAmount.setBounds(205, 100, 200, 35);
+		
+		this.add(label);
+		this.add(WithdrawAmount);
+		
+	}
+
+	private void initConfirmButton() {
+		Confirm = new JButton("Confirm");
+		Confirm.setBounds(205, 140, 90, 35);
+		Confirm.addActionListener(this);
+		
+		this.add(Confirm);	
+	}
 	
-	// REMOVE LATER
 	private void initBackButton() {
 		backButton = new JButton("Back");
 		backButton.setBounds(5, 5, 50, 50);
 		backButton.addActionListener(this);		
 		
-		this.add(backButton);		
+		this.add(backButton);
 	}
-
+	
 	private void initErrorMessageLabel() {
-		errorMessageLabel.setBounds(90, 440, 400, 35);
+		errorMessageLabel.setBounds(25, 200, 450, 35);
 		errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 14));
 		errorMessageLabel.setForeground(Color.RED);
 		
@@ -100,18 +127,79 @@ public class WithdrawView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
-		if (source.equals(backButton)) {
-			manager.switchTo(ATM.HOME_VIEW);
+		if (source.equals(Confirm)) {
+			if (!WithdrawAmount.getText().equals("") && checkContents(WithdrawAmount.getText()) 
+					&& Double.parseDouble(WithdrawAmount.getText()) >= 0.01 
+					&& Double.parseDouble(WithdrawAmount.getText()) <= account.getBalance()) {
+				try {			
+					int choice = JOptionPane.showConfirmDialog(
+						null,
+						"Are you sure you want to withdraw $" + WithdrawAmount.getText() + "?",
+						"Exit",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE
+					);
+					if (choice == 0) {
+						account.withdraw(Double.parseDouble(WithdrawAmount.getText()));
+						if (manager.updateAccount(account)) {
+							WithdrawAmount.setText("");
+							manager.sendBankAccount(account, "Home");
+							manager.switchTo(ATM.HOME_VIEW);
+						} else {
+							updateErrorMessage("ERROR: Could not withdraw");
+						}
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}				
+			} else if (Double.parseDouble(WithdrawAmount.getText()) >= account.getBalance()) {
+				updateErrorMessage("Be careful of overdrawing. Account has $" + Math.round(account.getBalance() * 100) / 100); 
+			} else {
+				updateErrorMessage("Please withdraw at least $0.01 in the correct format (##.##)"); 
+			}
+		} else if (source.equals(backButton)) {
+			if (!WithdrawAmount.getText().equals("")) {
+				try {			
+					int choice = JOptionPane.showConfirmDialog(
+						null,
+						"Are you sure you want to cancel withdraw and exit to home?",
+						"Exit",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE
+					);
+					if (choice == 0) {
+						WithdrawAmount.setText("");
+						manager.switchTo(ATM.HOME_VIEW);
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			} else {
+				manager.switchTo(ATM.HOME_VIEW);
+			}
 		} else {
 			System.err.println("ERROR: Action command not found (" + e.getActionCommand() + ")");
 		}
-		
-		// TODO
-		//
-		// this is where you'll setup your action listener, which is responsible for
-		// responding to actions the user might take in this view (an action can be a
-		// user clicking a button, typing in a textfield, etc.).
-		//
-		// feel free to use my action listener in LoginView.java as an example.
+	}
+	
+	/**
+	 * Checks for certain format
+	 * 
+	 * @param string, checking for characters?
+	 * @return true if format is correct; false otherwise.
+	 */
+	
+	private boolean checkContents(String string) {
+		boolean format = true;
+		for (int i = 0; i < string.length(); i++) {
+			char tempChar = string.charAt(i);
+			if (!(tempChar >= '0' && tempChar <= '9' || tempChar == '.')) {
+					format = false;
+			}
+			if (tempChar == '.' && (string.length() - i) > 3) {
+				format = false;
+			}
+		}
+		return format;
 	}
 }
