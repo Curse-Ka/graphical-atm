@@ -22,6 +22,7 @@ public class HomeView extends JPanel implements ActionListener {
 	
 	private ViewManager manager;		// manages interactions between the views, model, and database
 	private JLabel Welcome;
+	private JLabel AccountNumber;
 	private JLabel CurrentBalance;
 	private JButton Deposit;
 	private JButton Withdraw;
@@ -60,6 +61,7 @@ public class HomeView extends JPanel implements ActionListener {
 	public void setBankAccount(model.BankAccount account) {
 		this.account = account;
 		Welcome.setText("Welcome to Inva Sterr's Bank, " + account.getUser().getName());
+		AccountNumber.setText("Account Number: " + account.getAccountNumber());
 		CurrentBalance.setText("Current Balance: " + NumberFormat.getCurrencyInstance(Locale.US).format(account.getBalance()));
 	}
 	
@@ -73,6 +75,7 @@ public class HomeView extends JPanel implements ActionListener {
 		this.setLayout(null);
 		
 		initWelcome();
+		initAccountNumber();
 		initCurrentBalance();
 		initDepositButton();
 		initWithdrawalButton();
@@ -84,22 +87,30 @@ public class HomeView extends JPanel implements ActionListener {
 	}
 	
 	private void initWelcome() {
-		Welcome =  new JLabel("[Welcome Message]", SwingConstants.CENTER);
+		Welcome = new JLabel("[Welcome Message]", SwingConstants.CENTER);
 		Welcome.setBounds(50, 40, 400, 35);		
 		Welcome.setFont(new Font("DialogInput", Font.PLAIN, 18));
 		Welcome.setForeground(Color.BLACK);
 		
 		this.add(Welcome);
 	}
+	
+	private void initAccountNumber() {
+		AccountNumber = new JLabel("[AccountNumber]", SwingConstants.CENTER);
+		AccountNumber.setBounds(60, 75, 400, 35);
+		AccountNumber.setFont(new Font("DialogInput", Font.BOLD, 14));
+		AccountNumber.setForeground(Color.BLACK);
+		
+		this.add(AccountNumber);
+	}
 
 	private void initCurrentBalance() {
-		CurrentBalance =  new JLabel("[Balance]", SwingConstants.CENTER);
+		CurrentBalance = new JLabel("[Balance]", SwingConstants.CENTER);
 		CurrentBalance.setBounds(60, 100, 400, 35);
 		CurrentBalance.setFont(new Font("DialogInput", Font.BOLD, 14));
 		CurrentBalance.setForeground(Color.BLACK);
 		
 		this.add(CurrentBalance);
-		
 	}
 
 	private void initDepositButton() {
