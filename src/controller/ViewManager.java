@@ -41,6 +41,7 @@ public class ViewManager {
 	 */
 	
 	public void login(String accountNumber, char[] pin) {
+		// System.out.println(db.getAccount(Long.parseLong(accountNumber)).getUser().getPin()); // for when I forget
 		account = db.getAccount(Long.valueOf(accountNumber), Integer.valueOf(new String(pin)));
 		
 		if (account == null) {
@@ -48,14 +49,9 @@ public class ViewManager {
 			lv.updateErrorMessage("Invalid account number and/or PIN.");
 		} else {
 			LoginView lv = ((LoginView) views.getComponents()[ATM.LOGIN_VIEW_INDEX]);
-			
-			if (account.getStatus() == 'N') {
-				lv.updateErrorMessage("Bank Account is closed");
-			} else {
-				sendBankAccount(account, "Home");
-				switchTo(ATM.HOME_VIEW);
-				lv.updateErrorMessage("");
-			}
+			sendBankAccount(account, "Home");
+			switchTo(ATM.HOME_VIEW);
+			lv.updateErrorMessage("");
 		}
 	}
 	
@@ -84,16 +80,22 @@ public class ViewManager {
 	}
 	
 	public boolean updateAccount(BankAccount account) {
-		return db.updateAccount(account);
+		boolean result = db.updateAccount(account);
+		return result;
 	}
 	
 	public boolean closeAccount(BankAccount account) {
 		return db.closeAccount(account);
 	}
 	
+	public boolean reopenAccount(BankAccount account) {
+		return db.reopenAccount(account);
+	}
+	
 	public BankAccount getAccount(long accountNumber) {
 		return db.getAccount(accountNumber);
 	}
+	
 	
 	/**
 	 * Switches the active (or visible) view upon request.

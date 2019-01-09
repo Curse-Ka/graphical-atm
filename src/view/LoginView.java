@@ -192,9 +192,13 @@ public class LoginView extends JPanel implements ActionListener {
 		Object source = e.getSource();
 		
 		if (source.equals(loginButton)) {
-			manager.login(accountField.getText(), pinField.getPassword());
-			accountField.setText("");
-			pinField.setText("");
+			if (!accountField.getText().equals("") && checkContents(accountField.getText(), false) && checkContents(new String(pinField.getPassword()), false)) {
+				manager.login(accountField.getText(), pinField.getPassword());
+				accountField.setText("");
+				pinField.setText("");
+			} else {
+				updateErrorMessage("Please enter valid number/pin format");
+			}
 		} else if (source.equals(createButton)) {
 			manager.switchTo(ATM.CREATE_VIEW);
 		} else if (source.equals(powerButton)) {
@@ -202,5 +206,29 @@ public class LoginView extends JPanel implements ActionListener {
 		} else {
 			System.err.println("ERROR: Action command not found (" + e.getActionCommand() + ")");
 		}
+	}
+	
+	/**
+	 * Checks for certain format
+	 * 
+	 * @param string, checking for characters?
+	 * @return true if format is correct; false otherwise.
+	 */
+	
+	private boolean checkContents(String string, boolean characters) {
+		boolean format = true;
+		for (int i = 0; i < string.length(); i++) {
+			char tempChar = string.charAt(i);
+			if (characters) {
+				if (!(tempChar >= 'a' && tempChar <= 'z' || tempChar >= 'A' && tempChar <= 'Z' || tempChar == ' ' || tempChar == '.')) {
+					format = false;
+				}
+			} else {
+				if (!(tempChar >= '0' && tempChar <= '9')) {
+					format = false;
+				}
+			}
+		}
+		return format;
 	}
 }

@@ -91,6 +91,7 @@ public class InformationView extends JPanel implements ActionListener {
 		initPostalCodeField();
 		initDateOfBirth();
 		initPhoneNumField();
+		initPinField();
 		initEditButton();
 		initSaveButton();
 		initCancelButton();
@@ -127,6 +128,7 @@ public class InformationView extends JPanel implements ActionListener {
 		PhoneNumber_A.setEditable(editable);
 		PhoneNumber_B.setEditable(editable);
 		PhoneNumber_C.setEditable(editable);
+		Pin.setEditable(editable);
 		Edit.setVisible(!editable);
 		Save.setVisible(editable);
 		Cancel.setVisible(editable);
@@ -134,12 +136,12 @@ public class InformationView extends JPanel implements ActionListener {
 	
 	private void initAccountNumberField() {
 		JLabel label = new JLabel("Account Number", SwingConstants.RIGHT);
-		label.setBounds(60, 40, 135, 35);
+		label.setBounds(60, 20, 135, 35);
 		label.setLabelFor(AccountNumber);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		AccountNumber = new JTextField(20);
-		AccountNumber.setBounds(205, 40, 200, 35);
+		AccountNumber.setBounds(205, 20, 200, 35);
 		AccountNumber.setEditable(false);
 		
 		this.add(label);
@@ -148,12 +150,12 @@ public class InformationView extends JPanel implements ActionListener {
 	
 	private void initFirstNameField() {
 		JLabel label = new JLabel("First Name", SwingConstants.RIGHT);
-		label.setBounds(100, 80, 95, 35);
+		label.setBounds(100, 60, 95, 35);
 		label.setLabelFor(FirstName);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		FirstName = new JTextField(20);
-		FirstName.setBounds(205, 80, 200, 35);
+		FirstName.setBounds(205, 60, 200, 35);
 		FirstName.setEditable(false);
 		
 		this.add(label);
@@ -163,12 +165,12 @@ public class InformationView extends JPanel implements ActionListener {
 
 	private void initLastNameField() {
 		JLabel label = new JLabel("Last Name", SwingConstants.RIGHT);
-		label.setBounds(100, 120, 95, 35);
+		label.setBounds(100, 100, 95, 35);
 		label.setLabelFor(LastName);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		LastName = new JTextField(20);
-		LastName.setBounds(205, 120, 200, 35);
+		LastName.setBounds(205, 100, 200, 35);
 		LastName.setEditable(false);
 		
 		this.add(label);
@@ -177,12 +179,12 @@ public class InformationView extends JPanel implements ActionListener {
 
 	private void initAddressField() {
 		JLabel label = new JLabel("Address", SwingConstants.RIGHT);
-		label.setBounds(100, 160, 95, 35);
+		label.setBounds(100, 140, 95, 35);
 		label.setLabelFor(Address);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		Address = new JTextField(20);
-		Address.setBounds(205, 160, 200, 35);
+		Address.setBounds(205, 140, 200, 35);
 		
 		this.add(label);
 		this.add(Address);		
@@ -190,12 +192,12 @@ public class InformationView extends JPanel implements ActionListener {
 
 	private void initCityField() {
 		JLabel label = new JLabel("City", SwingConstants.RIGHT);
-		label.setBounds(100, 200, 95, 35);
+		label.setBounds(100, 180, 95, 35);
 		label.setLabelFor(City);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		City = new JTextField(20);
-		City.setBounds(205, 200, 200, 35);
+		City.setBounds(205, 180, 200, 35);
 		
 		this.add(label);
 		this.add(City);		
@@ -203,7 +205,7 @@ public class InformationView extends JPanel implements ActionListener {
 
 	private void initStateMenu() {
 		JLabel label = new JLabel("State", SwingConstants.RIGHT);
-		label.setBounds(100, 240, 95, 35);
+		label.setBounds(100, 220, 95, 35);
 		label.setLabelFor(StateEditable);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
@@ -211,10 +213,10 @@ public class InformationView extends JPanel implements ActionListener {
 		
 	    StateEditable = new JComboBox<>(states);
 	    StateEditable.setEditable(false);
-	    StateEditable.setBounds(205, 240, 200, 35);
+	    StateEditable.setBounds(205, 220, 200, 35);
 	    
 	    StateUneditable = new JTextField(20);
-	    StateUneditable.setBounds(205, 240, 200, 35);
+	    StateUneditable.setBounds(205, 220, 200, 35);
 	    		
 		this.add(label);
 		this.add(StateEditable);
@@ -223,12 +225,12 @@ public class InformationView extends JPanel implements ActionListener {
 
 	private void initPostalCodeField() {
 		JLabel label = new JLabel("Postal Code", SwingConstants.RIGHT);
-		label.setBounds(100, 280, 95, 35);
+		label.setBounds(100, 260, 95, 35);
 		label.setLabelFor(PostalCode);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		PostalCode = new JTextField(20);
-		PostalCode.setBounds(205, 280, 200, 35);
+		PostalCode.setBounds(205, 260, 200, 35);
 		
 		this.add(label);
 		this.add(PostalCode);		
@@ -236,12 +238,12 @@ public class InformationView extends JPanel implements ActionListener {
 	
 	private void initDateOfBirth() {
 		JLabel label = new JLabel("Date of Birth", SwingConstants.RIGHT);
-		label.setBounds(65, 320, 130, 35);
+		label.setBounds(65, 300, 130, 35);
 		label.setLabelFor(DOB);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		DOB = new JTextField(20);
-		DOB.setBounds(205, 320, 200, 35);
+		DOB.setBounds(205, 300, 200, 35);
 		DOB.setEditable(false);
 		
 		this.add(label);
@@ -250,18 +252,18 @@ public class InformationView extends JPanel implements ActionListener {
 	
 	private void initPhoneNumField() {
 		JLabel label = new JLabel("Phone Number", SwingConstants.RIGHT);
-		label.setBounds(65, 360, 130, 35);
+		label.setBounds(65, 340, 130, 35);
 		label.setLabelFor(PhoneNumber_A);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
 		PhoneNumber_A = new JTextField(20);
-		PhoneNumber_A.setBounds(205, 360, 60, 35);
+		PhoneNumber_A.setBounds(205, 340, 60, 35);
 		
 		PhoneNumber_B = new JTextField(20);
-		PhoneNumber_B.setBounds(265, 360, 60, 35);
+		PhoneNumber_B.setBounds(265, 340, 60, 35);
 		
 		PhoneNumber_C = new JTextField(20);
-		PhoneNumber_C.setBounds(325, 360, 80, 35);
+		PhoneNumber_C.setBounds(325, 340, 80, 35);
 		
 		this.add(label);
 		this.add(PhoneNumber_A);
@@ -269,9 +271,22 @@ public class InformationView extends JPanel implements ActionListener {
 		this.add(PhoneNumber_C);		
 	}
 	
+	private void initPinField() {
+		JLabel label = new JLabel("Pin", SwingConstants.RIGHT);
+		label.setBounds(100, 380, 95, 35);
+		label.setLabelFor(Pin);
+		label.setFont(new Font("DialogInput", Font.BOLD, 14));
+		
+		Pin = new JPasswordField(20);
+		Pin.setBounds(205, 380, 200, 35);
+		
+		this.add(label);
+		this.add(Pin);
+	}
+	
 	private void initEditButton() {
 		Edit = new JButton("Edit");
-		Edit.setBounds(205, 400, 90, 35);
+		Edit.setBounds(205, 420, 90, 35);
 		Edit.addActionListener(this);
 		
 		this.add(Edit);	
@@ -279,7 +294,7 @@ public class InformationView extends JPanel implements ActionListener {
 	
 	private void initSaveButton() {
 		Save = new JButton("Save");
-		Save.setBounds(205, 400, 90, 35);
+		Save.setBounds(205, 420, 90, 35);
 		Save.addActionListener(this);
 		
 		this.add(Save);	
@@ -287,7 +302,7 @@ public class InformationView extends JPanel implements ActionListener {
 	
 	private void initCancelButton() {
 		Cancel = new JButton("Cancel");
-		Cancel.setBounds(300, 400, 90, 35);
+		Cancel.setBounds(300, 420, 90, 35);
 		Cancel.addActionListener(this);
 		
 		this.add(Cancel);
@@ -302,7 +317,7 @@ public class InformationView extends JPanel implements ActionListener {
 	}
 
 	private void initErrorMessageLabel() {
-		errorMessageLabel.setBounds(90, 440, 400, 35);
+		errorMessageLabel.setBounds(90, 450, 400, 35);
 		errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 14));
 		errorMessageLabel.setForeground(Color.RED);
 		
@@ -349,13 +364,14 @@ public class InformationView extends JPanel implements ActionListener {
 					editable = false;
 					setEditable();
 					setFieldInformation();
+					updateErrorMessage("");
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		} else if (source.equals(Save)) {
 			String errorMsg = "";
-			//errorMsg = (new String(Pin.getPassword()).length() != 4 || !checkContents(new String(Pin.getPassword()), false)) ? "Please enter pin in correct format" : errorMsg; 
+			errorMsg = (new String(Pin.getPassword()).length() != 4 && new String(Pin.getPassword()).length() != 0 || !checkContents(new String(Pin.getPassword()), false)) ? "Please enter pin in correct format" : errorMsg;
 			errorMsg = (PhoneNumber_A.getText().length() != 3 || PhoneNumber_B.getText().length() != 3 || PhoneNumber_C.getText().length() != 4
 					|| !checkContents(PhoneNumber_A.getText(), false) || !checkContents(PhoneNumber_B.getText(), false) || !checkContents(PhoneNumber_C.getText(), false)) ? "Please enter phone number in correct format" : errorMsg;
 			errorMsg = (PostalCode.getText().length() != 5 || !checkContents(PostalCode.getText(), false)) ? "Please enter postal code in correct format" : errorMsg;
@@ -383,8 +399,9 @@ public class InformationView extends JPanel implements ActionListener {
 						account.getUser().setCity(City.getText());
 						account.getUser().setState(StateEditable.getSelectedItem().toString());
 						account.getUser().setPhone(Long.valueOf(PhoneNumber_A.getText() + PhoneNumber_B.getText() + PhoneNumber_C.getText()));
-						//ASK ABOUT PIN
-						//account.getUser().setLastName("Krska");
+						if (new String(Pin.getPassword()).length() != 0) {
+							account.getUser().setPin(account.getUser().getPin(), Integer.valueOf(new String(Pin.getPassword())));
+						}
 						
 						if (manager.updateAccount(account)) {
 							editable = false;

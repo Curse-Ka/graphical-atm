@@ -147,7 +147,7 @@ public class TransferView extends JPanel implements ActionListener {
 			if (!TransferAmount.getText().equals("") && checkContents(TransferAmount.getText()) 
 					&& Double.parseDouble(TransferAmount.getText()) >= 0.01 
 					&& Double.parseDouble(TransferAmount.getText()) <= account.getBalance()
-					&& !destination.equals(null)
+					&& !(destination == null)
 					&& destination.getStatus() == 'Y') {
 				try {			
 					int choice = JOptionPane.showConfirmDialog(
@@ -175,7 +175,7 @@ public class TransferView extends JPanel implements ActionListener {
 				}				
 			} else if (Double.parseDouble(TransferAmount.getText()) >= account.getBalance()) {
 				updateErrorMessage("Be careful of overdrawing. Account has $" + Math.round(account.getBalance() * 100) / 100); 
-			} else if (manager.getAccount(Long.parseLong(TransferAccount.getText())).equals(null)) {
+			} else if (manager.getAccount(Long.parseLong(TransferAccount.getText())) == null) {
 				updateErrorMessage("Account entered does not exist");
 			} else if(destination.getStatus() == 'N') {
 				updateErrorMessage("Cannot transfer to closed account");

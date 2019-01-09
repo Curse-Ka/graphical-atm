@@ -30,6 +30,7 @@ public class HomeView extends JPanel implements ActionListener {
 	private JButton Information;
 	private JButton Close;
 	private JButton LogOut;
+	private JButton Reopen;
 	private model.BankAccount account;
 	private JLabel errorMessageLabel;		// label for potential error messages
 		/**
@@ -63,6 +64,25 @@ public class HomeView extends JPanel implements ActionListener {
 		Welcome.setText("Welcome to Inva Sterr's Bank, " + account.getUser().getName());
 		AccountNumber.setText("Account Number: " + account.getAccountNumber());
 		CurrentBalance.setText("Current Balance: " + NumberFormat.getCurrencyInstance(Locale.US).format(account.getBalance()));
+		
+		if (account.getStatus() == 'N') {
+			updateErrorMessage("Bank Account is Closed, click button to reopen");
+			Reopen.setVisible(true);
+			CurrentBalance.setVisible(false);
+			Deposit.setVisible(false);
+			Withdraw.setVisible(false);
+			Transfer.setVisible(false);
+			Information.setVisible(false);
+			Close.setVisible(false);
+		} else {
+			Reopen.setVisible(false);
+			CurrentBalance.setVisible(true);
+			Deposit.setVisible(true);
+			Withdraw.setVisible(true);
+			Transfer.setVisible(true);
+			Information.setVisible(true);
+			Close.setVisible(true);
+		}
 	}
 	
 	///////////////////// PRIVATE METHODS /////////////////////////////////////////////
@@ -83,6 +103,7 @@ public class HomeView extends JPanel implements ActionListener {
 		initInformationButton();
 		initCloseAccountButton();
 		initLogOutButton();
+		initReopenButton();
 		initErrorMessageLabel();
 	}
 	
@@ -161,6 +182,14 @@ public class HomeView extends JPanel implements ActionListener {
 		this.add(LogOut);
 	}
 
+	private void initReopenButton() {
+		Reopen = new JButton("Reopen Account");
+		Reopen.setBounds(160, 320, 180, 35);
+		Reopen.addActionListener(this);
+		
+		this.add(Reopen);
+	}
+	
 	private void initErrorMessageLabel() {
 		errorMessageLabel.setBounds(90, 440, 400, 35);
 		errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 14));
@@ -218,6 +247,32 @@ public class HomeView extends JPanel implements ActionListener {
 						manager.switchTo(ATM.LOGIN_VIEW);
 					} else {
 						updateErrorMessage("ERROR: Could not close account.");
+					}
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} else if (source.equals(Reopen)) {
+			try {			
+				int choice = JOptionPane.showConfirmDialog(
+					null,
+					"Are you sure you want to reopen account?",
+					"Reopen",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE
+				);
+				if (choice == 0) {
+					if (manager.reopenAccount(account)) {
+						Reopen.setVisible(false);
+						CurrentBalance.setVisible(true);
+						Deposit.setVisible(true);
+						Withdraw.setVisible(true);
+						Transfer.setVisible(true);
+						Information.setVisible(true);
+						Close.setVisible(true);
+						updateErrorMessage("");
+					} else {
+						updateErrorMessage("ERROR: Unable to reopen account");
 					}
 				}
 			} catch (Exception e1) {

@@ -189,6 +189,32 @@ public class Database {
 	}
 	
 	/**
+	 * Performs a soft delete of an account by setting the status to closed.
+	 * 
+	 * @param account
+	 * @return true if the transaction is successful; false otherwise.
+	 */
+	
+	public boolean reopenAccount(BankAccount account) {
+		try {
+			stmt = conn.createStatement();
+			
+			PreparedStatement insertStmt = conn.prepareStatement("UPDATE accounts SET status = ? WHERE account_number = ?");		
+			insertStmt.setString(1, "Y");
+			insertStmt.setLong(2, account.getAccountNumber());
+			
+			insertStmt.executeUpdate();
+			insertStmt.close();
+			
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Updates all potentially edited fields (i.e., PIN, account balance, phone number,
 	 * street address, city, state, and zip code).
 	 * 
@@ -210,7 +236,7 @@ public class Database {
 					"street_address = ?, " +
 					"city = ?, " +
 					"state = ?, " +
-					"zip = ? " +
+					"zip = ? " + 
 				"WHERE account_number = ?"
 			);		
 			insertStmt.setInt(1, account.getUser().getPin());
@@ -224,7 +250,8 @@ public class Database {
 			
 			insertStmt.executeUpdate();
 			insertStmt.close();
-			
+			System.out.println(getAccount(account.getAccountNumber()).getStatus());
+
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
