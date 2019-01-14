@@ -143,6 +143,7 @@ public class DepositView extends JPanel implements ActionListener {
 						if (manager.updateAccount(account)) {
 							DepositAmount.setText("");
 							manager.sendBankAccount(account, "Home");
+							updateErrorMessage("");
 							manager.switchTo(ATM.HOME_VIEW);
 						} else {
 							updateErrorMessage("ERROR: Could not deposit");

@@ -202,6 +202,7 @@ public class TransferView extends JPanel implements ActionListener {
 					e1.printStackTrace();
 				}
 			} else {
+				updateErrorMessage("");
 				manager.switchTo(ATM.HOME_VIEW);
 			}
 		} else {

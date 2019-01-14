@@ -349,7 +349,7 @@ public class Database {
 			insertStmt.setString(4, "Wilson");
 			insertStmt.setString(5, "Ryan");
 			insertStmt.setInt(6, 19700707);
-			insertStmt.setLong(7, 55555555555L);
+			insertStmt.setLong(7, 5555555555L);
 			insertStmt.setString(8, "1776 Raritan Road");
 			insertStmt.setString(9, "Scotch Plains");
 			insertStmt.setString(10, "NJ");

@@ -2,7 +2,6 @@
 
 * fix last names (low priority)
 * Add back arrow? (low priority)
-* reopen account. Fix plz (Line 68 check, line 246 close, line 266 reopen)
 
 
 

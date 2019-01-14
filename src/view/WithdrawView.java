@@ -145,6 +145,7 @@ public class WithdrawView extends JPanel implements ActionListener {
 							WithdrawAmount.setText("");
 							manager.sendBankAccount(account, "Home");
 							manager.switchTo(ATM.HOME_VIEW);
+							updateErrorMessage("");
 						} else {
 							updateErrorMessage("ERROR: Could not withdraw");
 						}
@@ -169,12 +170,14 @@ public class WithdrawView extends JPanel implements ActionListener {
 					);
 					if (choice == 0) {
 						WithdrawAmount.setText("");
+						updateErrorMessage("");
 						manager.switchTo(ATM.HOME_VIEW);
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			} else {
+				updateErrorMessage("");
 				manager.switchTo(ATM.HOME_VIEW);
 			}
 		} else {

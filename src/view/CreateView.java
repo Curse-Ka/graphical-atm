@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +10,6 @@ import java.io.ObjectOutputStream;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -202,7 +200,7 @@ public class CreateView extends JPanel implements ActionListener {
 		label.setLabelFor(State);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
-		String[] states = {"State", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"};
+		String[] states = {"State", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"};
 		
 	    State = new JComboBox<>(states);
 	    State.setVisible(true);
@@ -405,6 +403,7 @@ public class CreateView extends JPanel implements ActionListener {
 			PostalCode.setText("");
 			Pin.setText("");
 			
+			updateErrorMessage("");
 			manager.switchTo(ATM.LOGIN_VIEW);
 		} else {
 			System.err.println("ERROR: Action command not found (" + e.getActionCommand() + ")");
