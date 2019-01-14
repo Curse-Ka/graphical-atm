@@ -430,7 +430,7 @@ public class CreateView extends JPanel implements ActionListener {
 		for (int i = 0; i < string.length(); i++) {
 			char tempChar = string.charAt(i);
 			if (characters) {
-				if (!(tempChar >= 'a' && tempChar <= 'z' || tempChar >= 'A' && tempChar <= 'Z' || tempChar == ' ' || tempChar == '.')) {
+				if (!(tempChar >= 'a' && tempChar <= 'z' || tempChar >= 'A' && tempChar <= 'Z' || tempChar == ' ' || tempChar == '.' || tempChar == '\''|| tempChar == '-' || tempChar == ',')) {
 					format = false;
 				}
 			} else {
