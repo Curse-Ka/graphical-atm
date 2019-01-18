@@ -1,10 +1,10 @@
 ----------------------------------------------------------------
-Fri Jan 18 09:05:23 EST 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0168-6147-d143-00000e61c9d0 
-on database directory /Users/William/Desktop/APCSA/graphical-atm/atm with class loader sun.misc.Launcher$AppClassLoader@42a57993 
-Loaded from file:/Users/William/Desktop/APCSA/graphical-atm/graphical-atm.jar
+Fri Jan 18 14:42:36 EST 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0168-627c-8d4c-00000e391c08 
+on database directory /Users/William/Desktop/APCSA/graphical-atm/atm with class loader sun.misc.Launcher$AppClassLoader@4e25154f 
+Loaded from file:/Users/William/Desktop/APCSA/graphical-atm/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_191-b12
+java.runtime.version=1.8.0_131-b11
 user.dir=/Users/William/Desktop/APCSA/graphical-atm
 os.name=Mac OS X
 os.arch=x86_64
